@@ -3,6 +3,7 @@
 import AuthSocialButton from "@/app/components/AuthSocialButton";
 import Button from "@/app/components/Button";
 import Input from "@/app/components/inputs/Input";
+import axios from "axios";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { BsGithub, BsGoogle } from "react-icons/bs";
@@ -37,6 +38,7 @@ const AuthForm = () => {
     setIsLoading(true);
 
     if (variant === "REGISTER") {
+      axios.post("api/register", data);
     }
     if (variant === "LOGIN") {
     }
@@ -53,9 +55,10 @@ const AuthForm = () => {
           {variant == "REGISTER" && (
             <Input
               id="name"
-              label="Nmail"
+              label="Name"
               register={register}
               errors={errors}
+              disabled={isLoading}
             />
           )}
           <Input
@@ -64,6 +67,7 @@ const AuthForm = () => {
             type="email"
             register={register}
             errors={errors}
+            disabled={isLoading}
           />
           <Input
             id="password"
@@ -71,6 +75,7 @@ const AuthForm = () => {
             type="password"
             register={register}
             errors={errors}
+            disabled={isLoading}
           />
           <div>
             <Button disabled={isLoading} fullWidth type="submit">
