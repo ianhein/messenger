@@ -1,5 +1,5 @@
 import prisma from "@/app/libs/prismadb";
-import { getSession } from "next-auth/react";
+import getSession from "./getSession";
 
 const getUsers = async () => {
   const session = await getSession();
@@ -12,12 +12,11 @@ const getUsers = async () => {
       },
       where: {
         NOT: {
-          email: session.user.email,
+          email: session.user.email as string,
         },
       },
     });
 
-    console.log("users", users);
     return users;
   } catch (error: any) {
     return [];
