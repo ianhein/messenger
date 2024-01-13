@@ -45,7 +45,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
         </div>
         {items.map((item) => (
           <ConversationBox
-            ket={item.id}
+            key={item.id}
             data={item}
             selected={conversationId === item.id}
           />

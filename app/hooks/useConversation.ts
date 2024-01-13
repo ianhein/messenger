@@ -1,17 +1,19 @@
-import { clsx } from "clsx";
 import { useParams } from "next/navigation";
 import { useMemo } from "react";
 
-const useConvsersation = () => {
+const useConversation = () => {
   const params = useParams();
+
   const conversationId = useMemo(() => {
-    if (params?.conversationId) {
+    if (!params?.conversationId) {
       return "";
     }
+
     return params.conversationId as string;
-  }, [params]);
+  }, [params?.conversationId]);
 
   const isOpen = useMemo(() => !!conversationId, [conversationId]);
+
   return useMemo(
     () => ({
       isOpen,
@@ -21,4 +23,4 @@ const useConvsersation = () => {
   );
 };
 
-export default useConvsersation;
+export default useConversation;
