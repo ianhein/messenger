@@ -1,13 +1,17 @@
 "use client";
 
-import Avatar from "@/app/components/Avatar";
-import { FullMessageType } from "@/app/types";
 import clsx from "clsx";
-import { format } from "date-fns";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useState } from "react";
+import { format } from "date-fns";
+import { useSession } from "next-auth/react";
+import { FullMessageType } from "@/app/types";
+
+import Avatar from "@/app/components/Avatar";
 import ImageModal from "./ImageModal";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
 interface MessageBoxProps {
   data: FullMessageType;
@@ -16,9 +20,9 @@ interface MessageBoxProps {
 
 const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
   const session = useSession();
-  const [imageModelOpen, setImageModelOpen] = useState(false);
+  const [imageModalOpen, setImageModalOpen] = useState(false);
 
-  const isOwn = session?.data?.user?.email === data?.sender?.email;
+  const isOwn = session.data?.user?.email === data?.sender?.email;
   const seenList = (data.seen || [])
     .filter((user) => user.email !== data?.sender?.email)
     .map((user) => user.name)
@@ -32,6 +36,17 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
     isOwn ? "bg-sky-500 text-white" : "bg-gray-100",
     data.image ? "rounded-md p-0" : "rounded-full py-2 px-3"
   );
+
+  const renderTick = () => {
+    if (isOwn) {
+      if (seenList.length > 0) {
+        return <FontAwesomeIcon icon={faCheckCircle} color="blue" />;
+      } else {
+        return <FontAwesomeIcon icon={faCheckCircle} color="gray" />;
+      }
+    }
+    return null;
+  };
 
   return (
     <div className={container}>
@@ -48,25 +63,42 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
         <div className={message}>
           <ImageModal
             src={data.image}
-            isOpen={imageModelOpen}
-            onClose={() => setImageModelOpen(false)}
+            isOpen={imageModalOpen}
+            onClose={() => setImageModalOpen(false)}
           />
           {data.image ? (
             <Image
-              onClick={() => setImageModelOpen(true)}
-              alt="image"
-              height={288}
-              width={288}
+              alt="Image"
+              height="288"
+              width="288"
+              onClick={() => setImageModalOpen(true)}
               src={data.image}
-              className="object-cover cursor-pointer hover:scale-110 transition translate"
+              className="
+                object-cover 
+                cursor-pointer 
+                hover:scale-110 
+                transition 
+                translate
+              "
             />
           ) : (
             <div>{data.body}</div>
           )}
         </div>
-        {isLast && isOwn && seenList.length > 0 && (
-          <div className="text-xs font-light text-gray-500">{`Seen by ${seenList}`}</div>
-        )}
+        <div className="flex items-center gap-1">
+          {isLast && isOwn && seenList.length > 0 && (
+            <div
+              className="
+            text-xs 
+            font-light 
+            text-gray-500
+            "
+            >
+              {`Seen by ${seenList}`}
+            </div>
+          )}
+          {renderTick()}
+        </div>
       </div>
     </div>
   );
