@@ -40,9 +40,9 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
   const renderTick = () => {
     if (isOwn) {
       if (seenList.length > 0) {
-        return <FontAwesomeIcon icon={faCheckCircle} color="blue" />;
+        return <FontAwesomeIcon icon={faCheckCircle} color="blue" />; // Icono azul para leído
       } else {
-        return <FontAwesomeIcon icon={faCheckCircle} color="gray" />;
+        return <FontAwesomeIcon icon={faCheckCircle} color="gray" />; // Icono gris para enviado
       }
     }
     return null;
@@ -89,10 +89,10 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
           {isLast && isOwn && seenList.length > 0 && (
             <div
               className="
-            text-xs 
-            font-light 
-            text-gray-500
-            "
+                text-xs 
+                font-light 
+                text-gray-500
+                "
             >
               {`Seen by ${seenList}`}
             </div>

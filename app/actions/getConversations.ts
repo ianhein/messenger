@@ -7,6 +7,7 @@ const getConversations = async () => {
   if (!currentUser?.id) {
     return [];
   }
+
   try {
     const conversations = await prisma.conversation.findMany({
       orderBy: {
@@ -29,7 +30,7 @@ const getConversations = async () => {
     });
 
     return conversations;
-  } catch (error) {
+  } catch (error: any) {
     return [];
   }
 };

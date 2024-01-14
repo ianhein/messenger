@@ -33,7 +33,7 @@ const Avatar: React.FC<AvatarProps> = ({ user }) => {
           alt="Avatar"
         />
       </div>
-      {isActive ? (
+      {isActive && (
         <span
           className="
             absolute 
@@ -50,7 +50,7 @@ const Avatar: React.FC<AvatarProps> = ({ user }) => {
             md:w-3
           "
         />
-      ) : null}
+      )}
     </div>
   );
 };
